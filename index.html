@@ -38,6 +38,45 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet" />
+        <style>
+            /* Style for custom prev/next buttons */
+            .custom-prev,
+            .custom-next {
+                font-size: 24px; /* Adjust arrow size */
+                color: white; /* Change arrow color */
+                background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+                padding: 0px 10px;
+                border-radius: 50%; /* Circular button */
+                cursor: pointer;
+                transition: background 0.3s ease-in-out;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                z-index: 10; /* Ensure it's above the images */
+            }
+
+            /* Hover effect for buttons */
+            .custom-prev:hover,
+            .custom-next:hover {
+                background-color: rgba(0, 0, 0, 0.9);
+            }
+
+            /* Positioning the navigation buttons */
+            .custom-prev {
+                left: 0px !important; /* Move the prev button to the left */
+            }
+
+            .custom-next {
+                right: 0px !important; /* Move the next button to the right */
+            }
+
+            /* Make sure buttons stay within the modal */
+            .modal-body {
+                position: relative;
+                padding: 20px;
+            }
+
+        </style>
     </head>
 
     <body>
@@ -866,7 +905,6 @@
                         );
                     });
 
-                    // Reinitialize the Owl Carousel inside the modal
                     modalCarousel.owlCarousel({
                         items: 1,
                         loop: true,
