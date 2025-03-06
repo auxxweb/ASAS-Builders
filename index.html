@@ -510,6 +510,25 @@
         </div>
         <!-- Feature End -->
 
+        <!-- Modal for Image Preview -->
+        <div
+            class="modal fade"
+            id="imageModal"
+            tabindex="-1"
+            aria-labelledby="imageModalLabel"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div id="modalCarousel" class="owl-carousel">
+                            <!-- Images will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="container-xxl py-5">
             <div class="container">
                 <div class="section-title text-center">
@@ -521,16 +540,31 @@
                             <div class="overflow-hidden">
                                 <h5 class="mb-3">Jamshi Kakkad Mala</h5>
                                 <h6>- 5670 Sq.ft</h6>
-                                <img class="img-fluid" src="img/projects/01.jpeg" alt="" />
+                                <!-- Carousel Container -->
+                                <div class="owl-carousel project-carousel">
+                                    <img
+                                        class="img-fluid preview-img"
+                                        src="img/projects/01.jpeg"
+                                        alt="Project 1"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.5s">
                         <div class="service-item">
                             <div class="overflow-hidden">
                                 <h5 class="mb-3">Pramosh Payyoli</h5>
                                 <h6>- 2464 Sq.ft</h6>
-                                <img class="img-fluid" src="img/projects/03.jpeg" alt="" />
+                                <!-- Carousel Container -->
+                                <div class="owl-carousel project-carousel">
+                                    <img
+                                        class="img-fluid preview-img"
+                                        src="img/projects/03.jpeg"
+                                        alt="Project 1"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -539,18 +573,31 @@
                             <div class="overflow-hidden">
                                 <h5 class="mb-3">Anoop Kakkodi</h5>
                                 <h6>- 4500 Sq.ft</h6>
-                                <img class="img-fluid" src="img/projects/08.jpeg" alt="" />
+                                <!-- Carousel Container -->
+                                <div class="owl-carousel project-carousel">
+                                    <img
+                                        class="img-fluid preview-img"
+                                        src="img/projects/08.jpeg"
+                                        alt="Project 1"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="service-item">
                             <div class="overflow-hidden">
-                                <h5 class="mb-3">
-                                    Jamshad karanthur
-                                </h5>
+                                <h5 class="mb-3">Jamshad karanthur</h5>
                                 <h6>- 5670 Sq.ft</h6>
-                                <img class="img-fluid" src="img/projects/04.jpeg" alt="" />
+                                <!-- Carousel Container -->
+                                <div class="owl-carousel project-carousel">
+                                    <img
+                                        class="img-fluid preview-img"
+                                        src="img/projects/04.jpeg"
+                                        alt="Project 1"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -559,7 +606,14 @@
                             <div class="overflow-hidden">
                                 <h5 class="mb-3">Balakrishnan Thondayad</h5>
                                 <h6>- 2674 Sq.ft</h6>
-                                <img class="img-fluid" src="img/projects/06.jpeg" alt="" />
+                                <!-- Carousel Container -->
+                                <div class="owl-carousel project-carousel">
+                                    <img
+                                        class="img-fluid preview-img"
+                                        src="img/projects/06.jpeg"
+                                        alt="Project 1"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -568,34 +622,79 @@
                             <div class="overflow-hidden">
                                 <h5 class="mb-3">Muhammed Perode</h5>
                                 <h6>- 5877 Sq.ft</h6>
-                                <img class="img-fluid" src="img/projects/02.jpeg" alt="" />
+                                <div class="owl-carousel project-carousel">
+                                    <img
+                                        class="img-fluid preview-img"
+                                        src="img/projects/02.jpeg"
+                                        alt=""
+                                    />
+                                    <img
+                                        class="preview-img"
+                                        src="img/projects/02_A.jpeg"
+                                        alt=""
+                                        height="290"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.3s">
                         <div class="service-item">
                             <div class="overflow-hidden">
                                 <h5 class="mb-3">Abdul Salim Morikkara</h5>
                                 <h6>- 2799 Sq.ft</h6>
-                                <img class="img-fluid" src="img/projects/07.jpeg" alt="" />
+                                <div class="owl-carousel project-carousel">
+                                    <img
+                                        class="img-fluid preview-img"
+                                        src="img/projects/07.jpeg"
+                                        alt="Project 1"
+                                    />
+                                    <img
+                                        class="preview-img"
+                                        src="img/projects/07_A.jpeg"
+                                        alt="Project 1"
+                                        height="230"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.1s">
+
+                    <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.3s">
                         <div class="service-item">
                             <div class="overflow-hidden">
                                 <h5 class="mb-3">Davison paropadi</h5>
                                 <h6>- 3406 Sq.ft</h6>
-                                <img class="img-fluid" src="img/projects/05.jpeg" alt="" />
+                                <div class="owl-carousel project-carousel">
+                                    <img
+                                        class="img-fluid preview-img"
+                                        src="img/projects/05.jpeg"
+                                        alt=""
+                                    />
+                                    <img
+                                        class="preview-img"
+                                        src="img/projects/05_A.jpeg"
+                                        alt=""
+                                        height="230"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="service-item">
                             <div class="overflow-hidden">
                                 <h5 class="mb-3">Muhammed perode</h5>
                                 <h6>- 5877 Sq.ft</h6>
-                                <img class="img-fluid" src="img/projects/09.jpeg" alt="" />
+                                <!-- Carousel Container -->
+                                <div class="owl-carousel project-carousel">
+                                    <img
+                                        class="img-fluid preview-img"
+                                        src="img/projects/09.jpeg"
+                                        alt="Project 1"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -734,5 +833,60 @@
         <script src="js/main.js"></script>
 
         <script src="https://static.elfsight.com/platform/platform.js" async></script>
+
+        <script>
+            $(document).ready(function () {
+                // Initialize Owl Carousel for all project sections
+                $('.project-carousel').each(function () {
+                    $(this).owlCarousel({
+                        items: 1,
+                        loop: true,
+                        nav: false, // Hide arrows in the main carousel
+                        dots: false, // Hide dots in the main carousel
+                        autoplay: true,
+                        autoplayTimeout: 3000,
+                        autoplayHoverPause: true,
+                    });
+                });
+
+                // Open modal with carousel images
+                $(document).on('click', '.preview-img', function () {
+                    let images = $(this).closest('.project-carousel').find('img'); // Get all images from the clicked project
+                    let modalCarousel = $('#modalCarousel');
+
+                    // Destroy the existing Owl Carousel instance (if any)
+                    modalCarousel.owlCarousel('destroy').empty();
+
+                    // Append images to modal carousel
+                    images.each(function () {
+                        modalCarousel.append(
+                            `<div><img class="img-fluid" src="${$(this).attr(
+                                'src'
+                            )}" alt="Preview"></div>`
+                        );
+                    });
+
+                    // Reinitialize the Owl Carousel inside the modal
+                    modalCarousel.owlCarousel({
+                        items: 1,
+                        loop: true,
+                        nav: true, // Show navigation inside modal
+                        dots: true, // Show dots inside modal
+                        autoplay: false,
+                        navText: [
+                            '<span class="custom-prev">&larr;</span>', // Custom prev button
+                            '<span class="custom-next">&rarr;</span>', // Custom next button
+                        ],
+                    });
+
+                    $('#imageModal').modal('show');
+                });
+
+                // Ensure modal carousel resets when modal is closed
+                $('#imageModal').on('hidden.bs.modal', function () {
+                    $('#modalCarousel').owlCarousel('destroy').empty(); // Clear images on modal close
+                });
+            });
+        </script>
     </body>
 </html>
