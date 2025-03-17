@@ -84,7 +84,7 @@
         <!-- Navbar End -->
 
         <!-- Page Header Start -->
-        <div class="container-fluid page-header py-5 mb-5">
+        <div id="pageHeaderSection" class="container-fluid page-header py-5 mb-5">
             <div class="container py-5">
                 <h1 class="display-3 text-white mb-3 animated slideInDown">Gallery</h1>
                 <nav aria-label="breadcrumb animated slideInDown">
@@ -107,67 +107,13 @@
                     <h1 class="display-5 mb-5">Gallery</h1>
                 </div>
                 <div class="row g-4 portfolio-container mt-4">
-                    <div class="gallery" style="height: fit-content">
+                    <div id="gallery-section" class="gallery" style="height: fit-content">
                         <div class="gallery-item">
                             <figure>
                                 <img src="img/Gallery/01.jpg" alt="gallery-item" />
                             </figure>
                         </div>
-                        <div class="gallery-item">
-                            <figure>
-                                <img src="img/Gallery/02.jpg" alt="gallery-item" />
-                            </figure>
-                        </div>
-                        <div class="gallery-item">
-                            <figure>
-                                <img src="img/Gallery/03.jpg" alt="gallery-item" />
-                            </figure>
-                        </div>
-                        <div class="gallery-item">
-                            <figure>
-                                <img src="img/Gallery/04.jpg" alt="gallery-item" />
-                            </figure>
-                        </div>
-                        <div class="gallery-item">
-                            <figure>
-                                <img src="img/Gallery/05.jpg" alt="gallery-item" />
-                            </figure>
-                        </div>
-                        <div class="gallery-item">
-                            <figure>
-                                <img src="img/Gallery/06.jpg" alt="gallery-item" />
-                            </figure>
-                        </div>
-                        <div class="gallery-item">
-                            <figure>
-                                <img src="img/Gallery/07.jpg" alt="gallery-item" />
-                            </figure>
-                        </div>
-                        <div class="gallery-item">
-                            <figure>
-                                <img src="img/Gallery/08.jpg" alt="gallery-item" />
-                            </figure>
-                        </div>
-                        <div class="gallery-item">
-                            <figure>
-                                <img src="img/Gallery/09.jpg" alt="gallery-item" />
-                            </figure>
-                        </div>
-                        <div class="gallery-item">
-                            <figure>
-                                <img src="img/Gallery/10.jpg" alt="gallery-item" />
-                            </figure>
-                        </div>
-                        <div class="gallery-item">
-                            <figure>
-                                <img src="img/Gallery/11.jpg" alt="gallery-item" />
-                            </figure>
-                        </div>
-                        <div class="gallery-item">
-                            <figure>
-                                <img src="img/Gallery/12.jpg" alt="gallery-item" />
-                            </figure>
-                        </div>
+                   
                     </div>
                 </div>
             </div>
@@ -200,6 +146,92 @@
         <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-0 back-to-top"
             ><i class="bi bi-arrow-up"></i
         ></a>
+
+
+
+        <script>
+ const sheetId = "1gjxF7z9tgqQklkiptQTbV8KIpRx3aLTo9o66z7eLsvs"
+const headId ="pageHeaderSection"
+const gallerySectionId = "gallery-section"
+
+
+
+function GetGalleryHtmlContent({ image}) {
+        
+        return `
+          <div class="gallery-item">
+                            <figure>
+                                <img src="${image}" alt="gallery-item" />
+                            </figure>
+                        </div>`;
+    }
+
+            async function fetchSheetData(sheetName, sheetId) {
+                try {
+                    const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+                    const response = await fetch(sheetURL);
+                    const text = await response.text();
+                    const json = JSON.parse(text.substring(47).slice(0, -2));
+                    return json.table.rows || [];
+                } catch (err) {
+                    console.error(`Error fetching ${sheetName}:`, err);
+                    return [];
+                }
+            }
+
+async function fetchServiceHeadData() {
+    try {
+        const rows = await fetchSheetData("head", sheetId);
+        
+        if (!rows || rows.length < 2) return; // Ensure rows exist beyond the header
+
+        rows.slice(1).forEach((row) => {
+            if (!row || !row.c || !row.c[0]?.v) return;
+
+            const image = row.c[0].v.trim(); // Trim any unwanted spaces
+            
+            const headElement = document.getElementById(headId);
+            if (headElement) {
+                headElement.style.backgroundImage = 
+                    `linear-gradient(rgba(53, 53, 53, 0.7), rgba(53, 53, 53, 0.7)), url(${image})`;
+                headElement.style.backgroundPosition = "center";
+                headElement.style.backgroundRepeat = "no-repeat";
+                headElement.style.backgroundSize = "cover";
+            } else {
+                console.warn("Element with ID", headId, "not found.");
+            }
+        });
+
+    } catch (error) {
+        console.error("Error fetching service head data:", error);
+    }
+}
+
+        
+            fetchServiceHeadData();
+
+            async function fetchGalleryData() {
+                try {
+                    const rows = await fetchSheetData("gallery", sheetId);
+                    let htmlContent = "";
+        
+                    rows.slice(1).forEach((row) => {
+            if (!row || !row.c) return;
+            const image = row.c[0]?.v || "";
+    
+            htmlContent += GetGalleryHtmlContent({ image});
+        });
+        
+        
+                    document.getElementById(gallerySectionId).innerHTML = htmlContent;
+        
+                } catch (error) {
+                    console.error("Error fetching gallery data:", error);
+                }
+            }
+            fetchGalleryData()
+        
+        </script>
 
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
