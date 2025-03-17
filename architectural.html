@@ -403,7 +403,7 @@ async function fetchServiceHeadData() {
 
             async function fetchServiceData() {
                 try {
-                    const rows = await fetchSheetData("services", sheetId);
+                    const rows = await fetchSheetData("architectural", sheetId);
                     let htmlContent = "";
         
                     rows.slice(1).forEach((row) => {
