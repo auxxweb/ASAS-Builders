@@ -84,7 +84,7 @@
         <!-- Navbar End -->
 
         <!-- Page Header Start -->
-        <div class="container-fluid page-header py-5 mb-5">
+        <div id="pageHeaderSection" class="container-fluid page-header py-5 mb-5">
             <div class="container py-5">
                 <h1 class="display-3 text-white mb-3 animated slideInDown">About Us</h1>
                 <nav aria-label="breadcrumb animated slideInDown">
@@ -155,70 +155,8 @@
         <!-- Feature Start -->
 
         <!-- About Start -->
-        <div class="container-fluid bg-light overflow-hidden my-5 px-lg-0">
-            <div class="container about px-lg-0">
-                <div class="row g-0 mx-lg-0">
-                    <div class="col-lg-6 ps-lg-0" style="min-height: 400px">
-                        <div class="position-relative h-100">
-                            <img
-                                class="position-absolute img-fluid w-100 h-100"
-                                src="img/Gallery/10.jpg"
-                                style="object-fit: cover"
-                                alt=""
-                            />
-                        </div>
-                    </div>
-                    <div class="col-lg-6 about-text py-5 wow fadeIn" data-wow-delay="0.5s">
-                        <div class="p-lg-5 pe-lg-0">
-                            <div class="section-title text-start">
-                                <h1 class="display-5 mb-4">About Us</h1>
-                            </div>
-                            <p class="mb-4 pb-2">
-                                At Asas Construction and Consulting Pvt Ltd, we bring together
-                                experience, innovation, and precision to deliver high-quality
-                                construction and design solutions. Since our establishment in 2016,
-                                we have successfully delivered numerous residential, commercial, and
-                                industrial projects across Kerala.
-                            </p>
-                            <!-- <div class="row g-4 mb-4 pb-2">
-                                <div class="col-sm-6 wow fadeIn" data-wow-delay="0.1s">
-                                    <div class="d-flex align-items-center">
-                                        <div
-                                            class="d-flex flex-shrink-0 align-items-center justify-content-center bg-white"
-                                            style="width: 60px; height: 60px"
-                                        >
-                                            <i class="fa fa-users fa-2x text-primary"></i>
-                                        </div>
-                                        <div class="ms-3">
-                                            <h2 class="text-primary mb-1" data-toggle="counter-up">
-                                                1234
-                                            </h2>
-                                            <p class="fw-medium mb-0">Happy Clients</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 wow fadeIn" data-wow-delay="0.3s">
-                                    <div class="d-flex align-items-center">
-                                        <div
-                                            class="d-flex flex-shrink-0 align-items-center justify-content-center bg-white"
-                                            style="width: 60px; height: 60px"
-                                        >
-                                            <i class="fa fa-check fa-2x text-primary"></i>
-                                        </div>
-                                        <div class="ms-3">
-                                            <h2 class="text-primary mb-1" data-toggle="counter-up">
-                                                1234
-                                            </h2>
-                                            <p class="fw-medium mb-0">Projects Done</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
-                            <a href="" class="btn btn-primary py-3 px-5">Explore More</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div id="aboutSectionId" class="container-fluid bg-light overflow-hidden my-5 px-lg-0">
+          
         </div>
         <!-- About End -->
 
@@ -332,6 +270,117 @@
         <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-0 back-to-top"
             ><i class="bi bi-arrow-up"></i
         ></a>
+
+        
+
+        <script>
+
+
+const sheetId = "1EwQ_vWloseRCI_7uSrtlqTn5dUd3wNBc3_LaweitstA"
+const aboutSectionId = "aboutSectionId"
+const headId ="pageHeaderSection"
+
+
+
+
+function GetAboutHtmlContent({ title, description, image}){
+return `<div class="container about px-lg-0">
+                <div class="row g-0 mx-lg-0">
+                    <div class="col-lg-6 ps-lg-0" style="min-height: 400px">
+                        <div class="position-relative h-100">
+                            <img
+                                class="position-absolute img-fluid w-100 h-100"
+                                src="${image}"
+                                style="object-fit: cover"
+                                alt=""
+                            />
+                        </div>
+                    </div>
+                    <div class="col-lg-6 about-text py-5 wow fadeIn" data-wow-delay="0.5s">
+                        <div class="p-lg-5 pe-lg-0">
+                            <div class="section-title text-start">
+                                <h1 class="display-5 mb-4">${title}</h1>
+                            </div>
+                            <p class="mb-4 pb-2">
+                               ${description}
+                            </p>
+                            <a href="" class="btn btn-primary py-3 px-5">Explore More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>`
+}
+
+
+                        async function fetchSheetData(sheetName, sheetId) {
+                try {
+                    const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+                    const response = await fetch(sheetURL);
+                    const text = await response.text();
+                    const json = JSON.parse(text.substring(47).slice(0, -2));
+                    return json.table.rows || [];
+                } catch (err) {
+                    console.error(`Error fetching ${sheetName}:`, err);
+                    return [];
+                }
+            }
+
+
+            async function fetchAboutData() {
+                try {
+                    const rows = await fetchSheetData("about", sheetId);
+                    let htmlContent = "";
+        
+                    rows.slice(1).forEach((row) => {
+            if (!row || !row.c) return;
+            const title = row.c[0]?.v || "";
+            const description = row.c[1]?.v || "";
+            const image = row.c[2]?.v || "";
+            htmlContent += GetAboutHtmlContent({ title, description, image });
+        });
+        
+        
+                    document.getElementById(aboutSectionId).innerHTML = htmlContent;
+        
+                } catch (error) {
+                    console.error("Error fetching banner data:", error);
+                }
+            }
+        
+            fetchAboutData();
+
+
+            async function fetchAboutHeadData() {
+    try {
+        const rows = await fetchSheetData("head", sheetId);
+        
+        if (!rows || rows.length < 2) return; // Ensure rows exist beyond the header
+
+        rows.slice(1).forEach((row) => {
+            if (!row || !row.c || !row.c[0]?.v) return;
+
+            const image = row.c[0].v.trim(); // Trim any unwanted spaces
+            
+            const headElement = document.getElementById(headId);
+            if (headElement) {
+                headElement.style.backgroundImage = 
+                    `linear-gradient(rgba(53, 53, 53, 0.7), rgba(53, 53, 53, 0.7)), url(${image})`;
+                headElement.style.backgroundPosition = "center";
+                headElement.style.backgroundRepeat = "no-repeat";
+                headElement.style.backgroundSize = "cover";
+            } else {
+                console.warn("Element with ID", headId, "not found.");
+            }
+        });
+
+    } catch (error) {
+        console.error("Error fetching about head data:", error);
+    }
+}
+
+        
+            fetchAboutHeadData();
+        </script>
 
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
