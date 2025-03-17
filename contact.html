@@ -84,7 +84,7 @@
         <!-- Navbar End -->
 
         <!-- Page Header Start -->
-        <div class="container-fluid page-header py-5 mb-5">
+        <div id="pageHeaderSection" class="container-fluid page-header py-5 mb-5">
             <div class="container py-5">
                 <h1 class="display-3 text-white mb-3 animated slideInDown">Contact</h1>
                 <nav aria-label="breadcrumb animated slideInDown">
@@ -169,7 +169,7 @@
                         </div>
                     </div>
                     <div class="col-lg-6 pe-lg-0" style="min-height: 400px">
-                        <div class="position-relative h-100">
+                        <div id="map-section" class="position-relative h-100">
                             <iframe
                                 class="position-absolute w-100 h-100"
                                 style="object-fit: cover"
@@ -299,6 +299,94 @@
         <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-0 back-to-top"
             ><i class="bi bi-arrow-up"></i
         ></a>
+
+        <script>
+                const sheetId = "1dKjJ3ypMqp9tRER8sJcGd2Cx5IcADlTXRvXsoPQUBFE"
+const headId ="pageHeaderSection"
+const mapSectionId ="map-section"
+
+
+function GetGoogleMapHtmlContent ({mapLink}){
+    return ` <iframe
+                                class="position-absolute w-100 h-100"
+                                style="object-fit: cover"
+                                src="${mapLink}"
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"
+                                frameborder="0"
+                                allowfullscreen=""
+                                aria-hidden="false"
+                                tabindex="0"
+                            ></iframe>`
+}
+
+
+
+async function fetchSheetData(sheetName, sheetId) {
+                try {
+                    const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+                    const response = await fetch(sheetURL);
+                    const text = await response.text();
+                    const json = JSON.parse(text.substring(47).slice(0, -2));
+                    return json.table.rows || [];
+                } catch (err) {
+                    console.error(`Error fetching ${sheetName}:`, err);
+                    return [];
+                }
+            }
+
+async function fetchContactHeadData() {
+    try {
+        const rows = await fetchSheetData("head", sheetId);
+        
+        if (!rows || rows.length < 2) return; // Ensure rows exist beyond the header
+
+        rows.slice(1).forEach((row) => {
+            if (!row || !row.c || !row.c[0]?.v) return;
+
+            const image = row.c[0].v.trim(); // Trim any unwanted spaces
+            
+            const headElement = document.getElementById(headId);
+            if (headElement) {
+                headElement.style.backgroundImage = 
+                    `linear-gradient(rgba(53, 53, 53, 0.7), rgba(53, 53, 53, 0.7)), url(${image})`;
+                headElement.style.backgroundPosition = "center";
+                headElement.style.backgroundRepeat = "no-repeat";
+                headElement.style.backgroundSize = "cover";
+            } else {
+                console.warn("Element with ID", headId, "not found.");
+            }
+        });
+
+    } catch (error) {
+        console.error("Error fetching service head data:", error);
+    }
+}
+            fetchContactHeadData();
+
+
+            async function fetchMapData() {
+                try {
+                    const rows = await fetchSheetData("googlemap", sheetId);
+                    let htmlContent = "";
+        
+                    rows.slice(1).forEach((row) => {
+            if (!row || !row.c) return;
+            const mapLink = row.c[0]?.v || "";
+           
+            htmlContent += GetGoogleMapHtmlContent({ mapLink });
+        });
+        
+        
+                    document.getElementById(mapSectionId).innerHTML = htmlContent;
+        
+                } catch (error) {
+                    console.error("Error fetching map data:", error);
+                }
+            }
+        
+            fetchMapData();
+        </script>
 
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
