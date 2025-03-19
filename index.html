@@ -784,6 +784,10 @@ function getProjectHtmlContent ({title,subtitle,image}){
                     return [];
                 }
             }
+            function extractGoogleDriveFileID(url) {
+            const match = url.match(/\/d\/([^/]+)/);
+            return match ? `https://lh3.googleusercontent.com/d/${match[1]}=s0` : null;
+        }
         
 
         
@@ -798,7 +802,11 @@ function getProjectHtmlContent ({title,subtitle,image}){
             const description = row.c[1]?.v || "";
             const image = row.c[2]?.v || "";
             const link = row.c[3]?.v || "";
-            htmlContent += GetServiceHtmlContent({ title, description, image,link });
+            const extractedLink = extractGoogleDriveFileID(image)
+            console.log(extractedLink,"extract-link");
+            
+
+            htmlContent += GetServiceHtmlContent({ title, description, image:extractedLink,link });
         });
         
         
