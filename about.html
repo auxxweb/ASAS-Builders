@@ -155,9 +155,10 @@
         <!-- Feature Start -->
 
         <!-- About Start -->
-        <div id="aboutSectionId" class="container-fluid bg-light overflow-hidden my-5 px-lg-0">
-          
-        </div>
+        <div
+            id="aboutSectionId"
+            class="container-fluid bg-light overflow-hidden my-5 px-lg-0"
+        ></div>
         <!-- About End -->
 
         <!-- Footer Start -->
@@ -245,46 +246,43 @@
         </div>
         <!-- Footer End -->
         <div
-        class="elfsight-app-16a55765-fa99-4fb6-ad61-9d899b02dbd6"
-        data-elfsight-app-lazy
-        style="position: relative; z-index: 1"
-    ></div>
-    <a
-        href="https://api.whatsapp.com/send?phone=919526414888&amp;text= Hi, I would like to know more about your services!"
-        target="_blank"
-    >
-        <img
-            src="img/logo/whatsapp.png"
-            style="
-                position: fixed;
-                bottom: 95px;
-                right: 30px;
-                height: 48px;
-                width: 48px;
-                z-index: 101;
-                object-fit: cover;
-            "
-        />
-    </a>
+            class="elfsight-app-16a55765-fa99-4fb6-ad61-9d899b02dbd6"
+            data-elfsight-app-lazy
+            style="position: relative; z-index: 1"
+        ></div>
+        <a
+            href="https://api.whatsapp.com/send?phone=919526414888&amp;text= Hi, I would like to know more about your services!"
+            target="_blank"
+        >
+            <img
+                src="img/logo/whatsapp.png"
+                style="
+                    position: fixed;
+                    bottom: 95px;
+                    right: 30px;
+                    height: 48px;
+                    width: 48px;
+                    z-index: 101;
+                    object-fit: cover;
+                "
+            />
+        </a>
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-0 back-to-top"
             ><i class="bi bi-arrow-up"></i
         ></a>
 
-        
-
         <script>
+            function extractGoogleDriveFileID(url) {
+                const match = url.match(/\/d\/([^/]+)/);
+                return match ? `https://lh3.googleusercontent.com/d/${match[1]}=s0` : null;
+            }
+            const sheetId = '1EwQ_vWloseRCI_7uSrtlqTn5dUd3wNBc3_LaweitstA';
+            const aboutSectionId = 'aboutSectionId';
+            const headId = 'pageHeaderSection';
 
-
-const sheetId = "1EwQ_vWloseRCI_7uSrtlqTn5dUd3wNBc3_LaweitstA"
-const aboutSectionId = "aboutSectionId"
-const headId ="pageHeaderSection"
-
-
-
-
-function GetAboutHtmlContent({ title, description, image}){
-return `<div class="container about px-lg-0">
+            function GetAboutHtmlContent({ title, description, image }) {
+                return `<div class="container about px-lg-0">
                 <div class="row g-0 mx-lg-0">
                     <div class="col-lg-6 ps-lg-0" style="min-height: 400px">
                         <div class="position-relative h-100">
@@ -308,11 +306,10 @@ return `<div class="container about px-lg-0">
                         </div>
                     </div>
                 </div>
-            </div>`
-}
+            </div>`;
+            }
 
-
-                        async function fetchSheetData(sheetName, sheetId) {
+            async function fetchSheetData(sheetName, sheetId) {
                 try {
                     const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
                     const response = await fetch(sheetURL);
@@ -325,60 +322,61 @@ return `<div class="container about px-lg-0">
                 }
             }
 
-
             async function fetchAboutData() {
                 try {
-                    const rows = await fetchSheetData("about", sheetId);
-                    let htmlContent = "";
-        
+                    const rows = await fetchSheetData('about', sheetId);
+                    let htmlContent = '';
+
                     rows.slice(1).forEach((row) => {
-            if (!row || !row.c) return;
-            const title = row.c[0]?.v || "";
-            const description = row.c[1]?.v || "";
-            const image = row.c[2]?.v || "";
-            htmlContent += GetAboutHtmlContent({ title, description, image });
-        });
-        
-        
+                        if (!row || !row.c) return;
+                        const title = row.c[0]?.v || '';
+                        const description = row.c[1]?.v || '';
+                        const image = row.c[2]?.v || '';
+                        const extractedLink = extractGoogleDriveFileID(image);
+
+                        htmlContent += GetAboutHtmlContent({
+                            title,
+                            description,
+                            image: extractedLink,
+                        });
+                    });
+
                     document.getElementById(aboutSectionId).innerHTML = htmlContent;
-        
                 } catch (error) {
-                    console.error("Error fetching banner data:", error);
+                    console.error('Error fetching banner data:', error);
                 }
             }
-        
+
             fetchAboutData();
 
-
             async function fetchAboutHeadData() {
-    try {
-        const rows = await fetchSheetData("head", sheetId);
-        
-        if (!rows || rows.length < 2) return; // Ensure rows exist beyond the header
+                try {
+                    const rows = await fetchSheetData('head', sheetId);
 
-        rows.slice(1).forEach((row) => {
-            if (!row || !row.c || !row.c[0]?.v) return;
+                    if (!rows || rows.length < 2) return; // Ensure rows exist beyond the header
 
-            const image = row.c[0].v.trim(); // Trim any unwanted spaces
-            
-            const headElement = document.getElementById(headId);
-            if (headElement) {
-                headElement.style.backgroundImage = 
-                    `linear-gradient(rgba(53, 53, 53, 0.7), rgba(53, 53, 53, 0.7)), url(${image})`;
-                headElement.style.backgroundPosition = "center";
-                headElement.style.backgroundRepeat = "no-repeat";
-                headElement.style.backgroundSize = "cover";
-            } else {
-                console.warn("Element with ID", headId, "not found.");
+                    rows.slice(1).forEach((row) => {
+                        if (!row || !row.c || !row.c[0]?.v) return;
+
+                        const image = row.c[0].v.trim(); // Trim any unwanted spaces
+                        const extractedLink = extractGoogleDriveFileID(image);
+
+
+                        const headElement = document.getElementById(headId);
+                        if (headElement) {
+                            headElement.style.backgroundImage = `linear-gradient(rgba(53, 53, 53, 0.7), rgba(53, 53, 53, 0.7)), url(${extractedLink})`;
+                            headElement.style.backgroundPosition = 'center';
+                            headElement.style.backgroundRepeat = 'no-repeat';
+                            headElement.style.backgroundSize = 'cover';
+                        } else {
+                            console.warn('Element with ID', headId, 'not found.');
+                        }
+                    });
+                } catch (error) {
+                    console.error('Error fetching about head data:', error);
+                }
             }
-        });
 
-    } catch (error) {
-        console.error("Error fetching about head data:", error);
-    }
-}
-
-        
             fetchAboutHeadData();
         </script>
 

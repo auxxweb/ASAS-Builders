@@ -113,7 +113,6 @@
                                 <img src="img/Gallery/01.jpg" alt="gallery-item" />
                             </figure>
                         </div>
-                   
                     </div>
                 </div>
             </div>
@@ -147,24 +146,23 @@
             ><i class="bi bi-arrow-up"></i
         ></a>
 
-
-
         <script>
- const sheetId = "1gjxF7z9tgqQklkiptQTbV8KIpRx3aLTo9o66z7eLsvs"
-const headId ="pageHeaderSection"
-const gallerySectionId = "gallery-section"
+            function extractGoogleDriveFileID(url) {
+                const match = url.match(/\/d\/([^/]+)/);
+                return match ? `https://lh3.googleusercontent.com/d/${match[1]}=s0` : null;
+            }
+            const sheetId = '1gjxF7z9tgqQklkiptQTbV8KIpRx3aLTo9o66z7eLsvs';
+            const headId = 'pageHeaderSection';
+            const gallerySectionId = 'gallery-section';
 
-
-
-function GetGalleryHtmlContent({ image}) {
-        
-        return `
+            function GetGalleryHtmlContent({ image }) {
+                return `
           <div class="gallery-item">
                             <figure>
                                 <img src="${image}" alt="gallery-item" />
                             </figure>
                         </div>`;
-    }
+            }
 
             async function fetchSheetData(sheetName, sheetId) {
                 try {
@@ -179,58 +177,55 @@ function GetGalleryHtmlContent({ image}) {
                 }
             }
 
-async function fetchServiceHeadData() {
-    try {
-        const rows = await fetchSheetData("head", sheetId);
-        
-        if (!rows || rows.length < 2) return; // Ensure rows exist beyond the header
+            async function fetchServiceHeadData() {
+                try {
+                    const rows = await fetchSheetData('head', sheetId);
 
-        rows.slice(1).forEach((row) => {
-            if (!row || !row.c || !row.c[0]?.v) return;
+                    if (!rows || rows.length < 2) return; // Ensure rows exist beyond the header
 
-            const image = row.c[0].v.trim(); // Trim any unwanted spaces
-            
-            const headElement = document.getElementById(headId);
-            if (headElement) {
-                headElement.style.backgroundImage = 
-                    `linear-gradient(rgba(53, 53, 53, 0.7), rgba(53, 53, 53, 0.7)), url(${image})`;
-                headElement.style.backgroundPosition = "center";
-                headElement.style.backgroundRepeat = "no-repeat";
-                headElement.style.backgroundSize = "cover";
-            } else {
-                console.warn("Element with ID", headId, "not found.");
+                    rows.slice(1).forEach((row) => {
+                        if (!row || !row.c || !row.c[0]?.v) return;
+
+                        const image = row.c[0].v.trim(); // Trim any unwanted spaces
+                        const extractedLink = extractGoogleDriveFileID(image);
+
+                        const headElement = document.getElementById(headId);
+                        if (headElement) {
+                            headElement.style.backgroundImage = `linear-gradient(rgba(53, 53, 53, 0.7), rgba(53, 53, 53, 0.7)), url(${extractedLink})`;
+                            headElement.style.backgroundPosition = 'center';
+                            headElement.style.backgroundRepeat = 'no-repeat';
+                            headElement.style.backgroundSize = 'cover';
+                        } else {
+                            console.warn('Element with ID', headId, 'not found.');
+                        }
+                    });
+                } catch (error) {
+                    console.error('Error fetching service head data:', error);
+                }
             }
-        });
 
-    } catch (error) {
-        console.error("Error fetching service head data:", error);
-    }
-}
-
-        
             fetchServiceHeadData();
 
             async function fetchGalleryData() {
                 try {
-                    const rows = await fetchSheetData("gallery", sheetId);
-                    let htmlContent = "";
-        
+                    const rows = await fetchSheetData('gallery', sheetId);
+                    let htmlContent = '';
+
                     rows.slice(1).forEach((row) => {
-            if (!row || !row.c) return;
-            const image = row.c[0]?.v || "";
-    
-            htmlContent += GetGalleryHtmlContent({ image});
-        });
-        
-        
+                        if (!row || !row.c) return;
+                        const image = row.c[0]?.v || '';
+
+                        const extractedLink = extractGoogleDriveFileID(image);
+
+                        htmlContent += GetGalleryHtmlContent({ image:extractedLink });
+                    });
+
                     document.getElementById(gallerySectionId).innerHTML = htmlContent;
-        
                 } catch (error) {
-                    console.error("Error fetching gallery data:", error);
+                    console.error('Error fetching gallery data:', error);
                 }
             }
-            fetchGalleryData()
-        
+            fetchGalleryData();
         </script>
 
         <!-- JavaScript Libraries -->

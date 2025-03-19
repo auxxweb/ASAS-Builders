@@ -75,7 +75,6 @@
                 position: relative;
                 padding: 20px;
             }
-
         </style>
     </head>
 
@@ -292,10 +291,7 @@
                 <div class="section-title text-center">
                     <h1 class="display-5 mb-5">Our Services</h1>
                 </div>
-                <div id="service-section" class="row g-4">
-                   
-
-                </div>
+                <div id="service-section" class="row g-4"></div>
             </div>
         </div>
         <!-- Service End -->
@@ -338,9 +334,7 @@
 
         <!-- Feature Start -->
         <div class="container-fluid bg-light overflow-hidden my-5 px-lg-0">
-            <div id="whyChoose-section" class="container feature px-lg-0">
-                
-            </div>
+            <div id="whyChoose-section" class="container feature px-lg-0"></div>
         </div>
         <!-- Feature End -->
 
@@ -493,8 +487,6 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
@@ -615,8 +607,6 @@
             ><i class="bi bi-arrow-up"></i
         ></a>
 
-
-
         <script>
             function GetBannerHtmlContent({ title, subtitle, description, image }) {
                 return `
@@ -635,12 +625,11 @@
                                         ></a>
                                     </div>
                                 </div>
-                            </div>`
+                            </div>`;
             }
-        
-            function GetServiceHtmlContent({ title, description, image ,link}) {
-        
-            return `
+
+            function GetServiceHtmlContent({ title, description, image, link }) {
+                return `
              <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="service-item">
                             <div class="overflow-hidden">
@@ -657,11 +646,10 @@
                             </div>
                         </div>
                     </div>`;
-        }
-        
+            }
+
             function GetWhyChooseHtmlContent({ title, description, image }) {
-        
-            return `
+                return `
                  <div class="row g-0 mx-lg-0">
                             <div class="col-lg-6 feature-text py-5 wow fadeIn" data-wow-delay="0.5s">
                                 <div class="p-lg-5 ps-lg-0">
@@ -744,11 +732,10 @@
                                 </div>
                             </div>
                         </div>`;
-        }
-        
-        
-function getProjectHtmlContent ({title,subtitle,image}){
-    return ` <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.3s">
+            }
+
+            function getProjectHtmlContent({ title, subtitle, image }) {
+                return ` <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.3s">
                         <div class="service-item">
                             <div class="overflow-hidden">
                                 <h5 class="mb-3">${title}</h5>
@@ -763,15 +750,15 @@ function getProjectHtmlContent ({title,subtitle,image}){
                                 </div>
                             </div>
                         </div>
-                    </div>`
-}
+                    </div>`;
+            }
 
-            const bannerSheetId = "18L4Gn-4hRXUEs84-spg4U8n-oBdw2Xi0S2jCve0EE3I";
-            const bannerSectionId = "bannerSection";
-            const serviceSectionId = "service-section";
-            const whyChooseSectionId = "whyChoose-section";
-            const projectSectionId = "project-section"
-        
+            const bannerSheetId = '18L4Gn-4hRXUEs84-spg4U8n-oBdw2Xi0S2jCve0EE3I';
+            const bannerSectionId = 'bannerSection';
+            const serviceSectionId = 'service-section';
+            const whyChooseSectionId = 'whyChoose-section';
+            const projectSectionId = 'project-section';
+
             async function fetchSheetData(sheetName, sheetId) {
                 try {
                     const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
@@ -785,95 +772,93 @@ function getProjectHtmlContent ({title,subtitle,image}){
                 }
             }
             function extractGoogleDriveFileID(url) {
-            const match = url.match(/\/d\/([^/]+)/);
-            return match ? `https://lh3.googleusercontent.com/d/${match[1]}=s0` : null;
-        }
-        
+                const match = url.match(/\/d\/([^/]+)/);
+                return match ? `https://lh3.googleusercontent.com/d/${match[1]}=s0` : null;
+            }
 
-        
             async function fetchServiceData() {
                 try {
-                    const rows = await fetchSheetData("services", bannerSheetId);
-                    let htmlContent = "";
-        
-                    rows.slice(1).forEach((row) => {
-            if (!row || !row.c) return;
-            const title = row.c[0]?.v || "";
-            const description = row.c[1]?.v || "";
-            const image = row.c[2]?.v || "";
-            const link = row.c[3]?.v || "";
-            const extractedLink = extractGoogleDriveFileID(image)
-            console.log(extractedLink,"extract-link");
-            
+                    const rows = await fetchSheetData('services', bannerSheetId);
+                    let htmlContent = '';
 
-            htmlContent += GetServiceHtmlContent({ title, description, image:extractedLink,link });
-        });
-        
-        
+                    rows.slice(1).forEach((row) => {
+                        if (!row || !row.c) return;
+                        const title = row.c[0]?.v || '';
+                        const description = row.c[1]?.v || '';
+                        const image = row.c[2]?.v || '';
+                        const link = row.c[3]?.v || '';
+                        const extractedLink = extractGoogleDriveFileID(image);
+
+                        htmlContent += GetServiceHtmlContent({
+                            title,
+                            description,
+                            image: extractedLink,
+                            link,
+                        });
+                    });
+
                     document.getElementById(serviceSectionId).innerHTML = htmlContent;
-        
                 } catch (error) {
-                    console.error("Error fetching banner data:", error);
+                    console.error('Error fetching banner data:', error);
                 }
             }
-        
+
             fetchServiceData();
-        
-        
+
             async function fetchWhyChooseData() {
                 try {
-                    const rows = await fetchSheetData("whychooseus", bannerSheetId);
-                    let htmlContent = "";
-        
+                    const rows = await fetchSheetData('whychooseus', bannerSheetId);
+                    let htmlContent = '';
+
                     rows.slice(1).forEach((row) => {
-            if (!row || !row.c) return;
-            const title = row.c[0]?.v || "";
-            const description = row.c[1]?.v || "";
-            const image = row.c[2]?.v || "";
-            htmlContent += GetWhyChooseHtmlContent({ title, description, image });
-        });
-        
-        
+                        if (!row || !row.c) return;
+                        const title = row.c[0]?.v || '';
+                        const description = row.c[1]?.v || '';
+                        const image = row.c[2]?.v || '';
+                        const extractedLink = extractGoogleDriveFileID(image);
+                        htmlContent += GetWhyChooseHtmlContent({
+                            title,
+                            description,
+                            image: extractedLink,
+                        });
+                    });
+
                     document.getElementById(whyChooseSectionId).innerHTML = htmlContent;
-        
                 } catch (error) {
-                    console.error("Error fetching banner data:", error);
+                    console.error('Error fetching banner data:', error);
                 }
             }
-        
+
             // Fetch whychoose data on page load
             fetchWhyChooseData();
 
-
             async function fetchProjectData() {
                 try {
-                    const rows = await fetchSheetData("projects", bannerSheetId);
-                    let htmlContent = "";
-        
+                    const rows = await fetchSheetData('projects', bannerSheetId);
+                    let htmlContent = '';
+
                     rows?.slice(1)?.forEach((row) => {
-            if (!row || !row.c) return;
-            const title = row.c[0]?.v || "";
-            const subtitle = row.c[1]?.v || "";
-            const image = row.c[2]?.v || "";
-            htmlContent += getProjectHtmlContent({ title, subtitle, image });
-        });
-        
-        
+                        if (!row || !row.c) return;
+                        const title = row.c[0]?.v || '';
+                        const subtitle = row.c[1]?.v || '';
+                        const image = row.c[2]?.v || '';
+                        const extractedLink = extractGoogleDriveFileID(image);
+
+                        htmlContent += getProjectHtmlContent({
+                            title,
+                            subtitle,
+                            image: extractedLink,
+                        });
+                    });
+
                     document.getElementById(projectSectionId).innerHTML = htmlContent;
-        
                 } catch (error) {
-                    console.error("Error fetching project data:", error);
+                    console.error('Error fetching project data:', error);
                 }
             }
-        
+
             // Fetch project data on page load
             fetchProjectData();
-        
-        
-        
-        
-        
-         
         </script>
 
         <!-- JavaScript Libraries -->
